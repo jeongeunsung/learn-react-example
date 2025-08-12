@@ -101,13 +101,14 @@ let animateId
 function animate() {
   count += 1
 
-  // console.log(count, targetCount)
-
+  
   if (count > targetCount) {
     return cancelAnimationFrame(animateId)
   }
-
+  
   render()
+
+  animateId = requestAnimationFrame(animate)
 }
 
 function play() {
