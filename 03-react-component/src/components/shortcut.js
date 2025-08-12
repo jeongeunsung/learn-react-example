@@ -1,4 +1,4 @@
-export function ShortcutFunction() {
+export default function ShortcutFunction() {
   const data = {
     className: 'shortcut-info',
     shortcutKey: 'Shift + Enter',
@@ -14,6 +14,7 @@ export function ShortcutFunction() {
   )
 }
 
+// 학습 가이드 (참고용)
 export class ShortcutClass extends React.Component {
   constructor(props) {
     super(props)
