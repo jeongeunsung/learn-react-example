@@ -1,10 +1,5 @@
-// logoElement === React.ReactElement
-// React Component Type
-// 1. Functional
-// 2. Class
-
 export default function LogoFunction() {
-  const logoElement = React.createElement(
+  return React.createElement(
     'svg',
     {
       className: 'logo',
@@ -47,11 +42,8 @@ export default function LogoFunction() {
       )
     )
   )
-
-  return logoElement
 }
 
-// 학습 가이드 (참고)
 export class LogoClass extends React.Component {
   render() {
     const logoElement = React.createElement(
