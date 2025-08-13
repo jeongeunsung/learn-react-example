@@ -2,13 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 
 import App from './app.js'
-import {
-  getRandomMinMax,
-  getRandomHue,
-  setTargetCount,
-  setDocumentTitle,
-  setAppRandomHue
-} from './utils/index.js'
+import { getRandomMinMax, getRandomHue, setDocumentTitle, setAppRandomHue } from './utils/index.js'
 
 const MIN = 50
 const MAX = 99
@@ -44,7 +38,7 @@ function animate() {
 
 function play() {
   setTargetCount()
-  setDocumentTitle()
+  setDocumentTitle(ORIGIN_TITLE, targetCount)
   setAppRandomHue()
   animate()
 }
@@ -52,6 +46,10 @@ function play() {
 function replay() {
   count = 0
   play()
+}
+
+function setTargetCount() {
+  targetCount = getRandomMinMax()
 }
 
 document.addEventListener('DOMContentLoaded', () => {

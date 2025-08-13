@@ -5,7 +5,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "run-p watch serve",
-    "serve": "bunx live-server --host=localhost --port=3000 --no-browser",
+    "serve": "bun index.html",
     "transpile": "babel src --out-dir assets/scripts",
     "watch": "bun transpile --watch",
     "build": "run-s clean bundle",
