@@ -1,7 +1,7 @@
 import App from './app.js'
 
-const MIN = 30,
-  MAX = 99
+const MIN = 50
+const MAX = 99
 
 function getRandomMinMax(min = MIN, max = MAX) {
   if (min >= max) throw new Error('min 값이 max 값보다 크거나 같으면 안됩니다.')

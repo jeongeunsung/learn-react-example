@@ -1,6 +1,6 @@
 export default function Output(props) {
-  const classNames = `output ${props.isAnimate ? 'is-animate' : ''}`.trim();
+  const classNames = `output ${props.isAnimate ? 'is-animate' : ''}`;
   return /*#__PURE__*/React.createElement("output", {
-    className: classNames
+    className: classNames.trim()
   }, props.children);
 }
