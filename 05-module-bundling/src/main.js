@@ -1,10 +1,13 @@
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+
 import App from './app.js'
 import {
   getRandomMinMax,
   getRandomHue,
   setTargetCount,
   setDocumentTitle,
-  setAppRandomHue,
+  setAppRandomHue
 } from './utils/index.js'
 
 const MIN = 50
