@@ -9,7 +9,7 @@
     "transpile": "babel src --out-dir assets/scripts",
     "watch": "bun transpile --watch",
     "build": "run-s clean bundle",
-    "bundle": "bun build index.html --minify --outdir dist",
+    "bundle": "bun build index.html --minify --splitting --outdir dist",
     "clean": "rimraf -rf dist"
   },
   "devDependencies": {
