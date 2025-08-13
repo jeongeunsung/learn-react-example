@@ -37,7 +37,10 @@ if (!container) throw new Error('문서에 #container 요소가 존재하지 않
 const reactDOMRoot = ReactDOM.createRoot(container)
 
 function render() {
+  // React API
   const app = React.createElement(App, { count, targetCount })
+  // JSX (웹 표준이 아니라서, 브라우저에서 해석 안되고 오류 발생)
+  // const app = <App count={count} targetCount={targetCount} />
   reactDOMRoot.render(app)
 }
 
