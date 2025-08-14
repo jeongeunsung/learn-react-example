@@ -1,17 +1,11 @@
 import './user-card.css'
 
-// props 컴포넌트 속성
-// - name: string '박주성'
-// - phoneNumber: string '010-1234-5678'
-// - age: number 46
-// - address: string '강원특별자치도 태백시 ...'
-
 export default function UserCard(props) {
   console.log(props)
 
   return (
-    <article className="user-card" aria-labelledby="user-han-di1k">
-      <h2 id="user-han-di1k" className="user-name">
+    <article className="user-card" aria-labelledby={props.id}>
+      <h2 id={props.id} className="user-name">
         {props.name}
       </h2>
       <dl className="user-info">
