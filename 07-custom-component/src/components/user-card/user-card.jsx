@@ -1,8 +1,6 @@
 import './user-card.css'
 
 export default function UserCard(props) {
-  console.log(props)
-
   return (
     <article className="user-card" aria-labelledby={props.id}>
       <h2 id={props.id} className="user-name">

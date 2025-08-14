@@ -1,17 +1,22 @@
-import userData from './data/user.json'
-import UserCard from './components/user-card/user-card'
+import users from './data/users.json'
+import { UserCard } from './components/user-card'
 
 export default function App() {
+  const userListElement = users.map((user) => (
+    <UserCard
+      key={user.id}
+      id={user.id}
+      name={user.name}
+      phoneNumber={user.phoneNumber}
+      address={user.address}
+      age={user.age}
+    />
+  ))
+
   return (
     <section className="app demo">
       <h1>UserCard 커스텀 컴포넌트</h1>
-      <UserCard
-        id={userData.id}
-        name={userData.name}
-        phoneNumber={userData.phoneNumber}
-        address={userData.address}
-        age={46}
-      />
+      {userListElement}
     </section>
   )
 }
