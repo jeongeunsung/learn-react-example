@@ -9,7 +9,7 @@ import pluginReactHooks from 'eslint-plugin-react-hooks'
 
 export default defineConfig([
   // 'dist' 폴더 전체를 ESLint 검사에서 제외 (빌드된 결과물 무시)
-  globalIgnores(['dist', '.bun']),
+  globalIgnores(['dist']),
 
   {
     // 검사할 파일(src 폴더 내 js,jsx) 패턴 지정
