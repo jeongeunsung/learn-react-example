@@ -45,10 +45,8 @@ export default function SvgIcon({
  * @param {number} props.size - 아이콘 크기
  * @param {string} props.color - 아이콘 색상
  */
-function Spinner({ label = '로딩 중...', size = 16, color = '#525577' }) {
-  const ariaProps = label
-    ? { 'aria-label': label, 'title': label }
-    : { 'aria-hidden': 'true' }
+function Spinner({ label, size = 16, color = '#525577' }) {
+  const ariaProps = label ? { 'aria-label': label } : { 'aria-hidden': true }
 
   return (
     <svg

@@ -23,7 +23,7 @@ function IconsDemo() {
   return (
     <Demo>
       {/* 기본 스피너 컴포넌트 */}
-      <Spinner />
+      <Spinner label="로딩 중..." />
       {/* 문자열로 아이콘 타입 지정 */}
       <SvgIcon type="up-arrow" />
       {/* ICON_TYPES 상수를 사용하여 아이콘 타입 지정 */}
