@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import './accordion-item.css'
 
 /**
@@ -16,17 +18,27 @@ export default function AccordionItem({
   isOpen = false,
   onActive,
 }) {
-  const buttonLabel = isOpen ? '닫힘' : '열림'
+  const classNames = `accordion-item ${isOpen ? 'is-open' : ''}`.trim()
+  const buttonLabel = isOpen ? '닫힘 전환' : '열림 전환'
+  const handleActive = () => onActive?.(index)
 
   return (
-    <div className="accordion-item">
-      <dt>
+    <div className={classNames}>
+      <dt onClick={handleActive}>
         {question}{' '}
-        <button type="button" onClick={() => onActive?.(index)}>
-          {buttonLabel}
+        <button type="button" aria-label={buttonLabel} aria-pressed={isOpen}>
+          <svg width={24} height={24} viewBox="0 0 24 24" fill="none">
+            <path
+              d="M6 9L12 15L18 9"
+              stroke="currentColor"
+              strokeWidth={2}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
         </button>
       </dt>
-      <dd hidden={!isOpen}>{answer}</dd>
+      <dd className={isOpen ? 'is-open' : ''}>{answer}</dd>
     </div>
   )
 }

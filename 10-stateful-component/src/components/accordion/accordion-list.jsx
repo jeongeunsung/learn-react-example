@@ -1,6 +1,7 @@
 import accordionData from './data.json'
 import { Component } from 'react'
 import AccordionItem from './accordion-item'
+import './accordion-list.css'
 
 // 클래스 컴포넌트
 export class AccordionListClass extends Component {
@@ -33,7 +34,7 @@ export class AccordionListClass extends Component {
     const { activeIndex } = this.state
 
     return (
-      <section>
+      <section className="accordion-section">
         <h2>
           자주 묻는 질문
           <img
@@ -43,7 +44,7 @@ export class AccordionListClass extends Component {
             height={43}
           />
         </h2>
-        <dl>
+        <dl className="accordion-list">
           {accordionData.map((accordionItem, index) => (
             <AccordionItem
               key={accordionItem.id}

@@ -1,5 +1,5 @@
 import { LearnSection } from '@/components'
-import { AccordionListClass } from './components/accordion/accordin-list'
+import { AccordionListClass } from './components/accordion/accordion-list'
 import StatefulComponentClass from './components/stateful-component/class'
 import StatefulComponent from './components/stateful-component/functional'
 
