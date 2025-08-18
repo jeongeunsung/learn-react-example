@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import './accordion-item.css'
 
 /**
  * AccordionItem 컴포넌트
@@ -19,14 +19,14 @@ export default function AccordionItem({
   const buttonLabel = isOpen ? '닫힘' : '열림'
 
   return (
-    <Fragment>
-      <dt style={{ marginBlockStart: 20 }}>
+    <div className="accordion-item">
+      <dt>
         {question}{' '}
         <button type="button" onClick={() => onActive?.(index)}>
           {buttonLabel}
         </button>
       </dt>
       <dd hidden={!isOpen}>{answer}</dd>
-    </Fragment>
+    </div>
   )
 }
