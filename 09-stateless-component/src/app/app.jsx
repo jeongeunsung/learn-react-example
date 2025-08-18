@@ -2,6 +2,7 @@ import { Demo, Spinner, SvgIcon, UploadButton } from '@/components'
 import { UPLOAD_STATUS } from '@/components/upload-button'
 import { ICON_TYPES } from '@/components/svg-icon'
 import './app.css'
+import Logo from '@/components/logo'
 
 export default function App() {
   return (
@@ -15,7 +16,22 @@ export default function App() {
         <h2>UploadButton 컴포넌트</h2>
         <ButtonDemo />
       </article>
+      <article>
+        <h2>Logo 컴포넌트</h2>
+        <LogoDemo />
+      </article>
     </section>
+  )
+}
+
+function LogoDemo() {
+  return (
+    <Demo col>
+      <Logo />
+      <Logo outline />
+      <Logo type="secondary" />
+      <Logo type="secondary" outline />
+    </Demo>
   )
 }
 
