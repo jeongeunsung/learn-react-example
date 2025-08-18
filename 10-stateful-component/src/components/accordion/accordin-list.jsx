@@ -3,15 +3,21 @@ import { Component } from 'react'
 import AccordionItem from './accordion-item'
 
 // 클래스 컴포넌트
-export default class AccordionList extends Component {
+export class AccordionListClass extends Component {
   // 상태 선언
   // 클래스 필드 구문 활용
-  state = {
-    activeIndex: 0,
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      activeIndex: 0,
+    }
+
+    this.handleActiveIndex = this.handleActiveIndex.bind(this)
   }
 
   // 이벤트 핸들러
-  handleActiveIndex = (nextActiveIndex) => {
+  handleActiveIndex(nextActiveIndex) {
     // 상태 업데이트
     this.setState(
       {
