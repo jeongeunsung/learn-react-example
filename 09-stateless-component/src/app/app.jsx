@@ -27,10 +27,14 @@ export default function App() {
 function LogoDemo() {
   return (
     <Demo col>
-      <Logo />
-      <Logo outline />
-      <Logo type="secondary" />
-      <Logo type="secondary" outline />
+      {/* <Logo /> */}
+      <Logo.Primary />
+      {/* <Logo outline /> */}
+      <Logo.PrimaryOutline />
+      {/* <Logo type="secondary" /> */}
+      <Logo.Secondary />
+      {/* <Logo type="secondary" outline /> */}
+      <Logo.SecondaryOutline />
     </Demo>
   )
 }

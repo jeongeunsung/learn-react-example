@@ -36,3 +36,20 @@ export default function Logo({ type = 'primary', outline = false }) {
     </figure>
   )
 }
+
+// --------------------------------------------------------------------------
+// 컴파운드 컴포넌트 패턴
+// --------------------------------------------------------------------------
+// React.Component
+// React.Fragment
+// --------------------------------------------------------------------------
+// Logo.Primary
+// Logo.PrimaryOutline
+// Logo.Secondary
+// Logo.SecondaryOutline
+// --------------------------------------------------------------------------
+
+Logo.Primary = () => <Logo />
+Logo.PrimaryOutline = () => <Logo outline />
+Logo.Secondary = () => <Logo type="secondary" />
+Logo.SecondaryOutline = () => <Logo type="secondary" outline />
