@@ -1,9 +1,13 @@
 import accordionData from './data.json'
 import { Component } from 'react'
-import AccordionItem from './accordion-item'
+import { AccordionItemClass } from './accordion-item'
 import './accordion-list.css'
 
-// 클래스 컴포넌트
+/**
+ * AccordionListClass 컴포넌트
+ * @param {Object} props
+ * @param {boolean} props.onlyOneOpen - 단 하나의 아코디언 아이템만 열 수 있도록 설정
+ */
 export class AccordionListClass extends Component {
   // 상태 선언
   // 클래스 필드 구문 활용
@@ -31,6 +35,7 @@ export class AccordionListClass extends Component {
   }
 
   render() {
+    const { onlyOneOpen = false } = this.props
     const { activeIndex } = this.state
 
     return (
@@ -46,13 +51,14 @@ export class AccordionListClass extends Component {
         </h2>
         <dl className="accordion-list">
           {accordionData.map((accordionItem, index) => (
-            <AccordionItem
+            <AccordionItemClass
               key={accordionItem.id}
               question={accordionItem.question}
               answer={accordionItem.answer}
               isOpen={activeIndex === index}
               index={index}
               onActive={this.handleActiveIndex}
+              onlyOneOpen={onlyOneOpen}
             />
           ))}
         </dl>

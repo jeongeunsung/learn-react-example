@@ -6,6 +6,7 @@ import StatefulComponent from './components/stateful-component/functional'
 export default function App() {
   return (
     <LearnSection title="상태 있는/없는 컴포넌트 구성">
+      <AccordionListClass onlyOneOpen />
       <AccordionListClass />
     </LearnSection>
   )
