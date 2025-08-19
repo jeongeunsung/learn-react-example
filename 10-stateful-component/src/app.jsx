@@ -10,7 +10,7 @@ import StatefulComponent from './components/stateful-component/functional'
 import UpdateInput from './components/update-input'
 
 export default function App() {
-  return <FunctionalComponentObjectTypeStateDemo />
+  return <AccordionListClassDemo />
 }
 
 // --------------------------------------------------------------------------
