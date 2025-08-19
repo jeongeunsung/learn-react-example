@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import emotions from '@/data/emotions.json'
-import './change-button.css'
+import './style.css'
 
 export default function ChangeButton() {
   const [randomIndex, setRandomIndex] = useState(
@@ -14,11 +14,6 @@ export default function ChangeButton() {
   return (
     <button type="button" className="change-button" onClick={handleClick}>
       {emotions[randomIndex].message}
-      <img
-        src={`/assets/emotions/${emotions[randomIndex].key}.jpg`}
-        alt=""
-        height={20}
-      />
     </button>
   )
 }
