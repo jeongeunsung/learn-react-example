@@ -1,7 +1,47 @@
 import accordionData from './data.json'
-import { Component } from 'react'
+import { Component, useState } from 'react'
 import { AccordionItemClass } from './accordion-item'
 import './accordion-list.css'
+
+// --------------------------------------------------------------------------
+// 함수형 컴포넌트
+// --------------------------------------------------------------------------
+
+export function AccordionList({ onlyOneOpen = false }) {
+  const [activeIndex, setActiveIndex] = useState(0)
+  const handleActiveIndex = (nextActiveIndex) => setActiveIndex(nextActiveIndex)
+
+  return (
+    <section className="accordion-section">
+      <h2>
+        자주 묻는 질문
+        <img
+          src="/assets/tutor@2x.png"
+          alt="피그마 튜터"
+          width={43}
+          height={43}
+        />
+      </h2>
+      <dl className="accordion-list">
+        {accordionData.map((accordionItem, index) => (
+          <AccordionItemClass
+            key={accordionItem.id}
+            question={accordionItem.question}
+            answer={accordionItem.answer}
+            isOpen={activeIndex === index}
+            index={index}
+            onActive={handleActiveIndex}
+            onlyOneOpen={onlyOneOpen}
+          />
+        ))}
+      </dl>
+    </section>
+  )
+}
+
+// --------------------------------------------------------------------------
+// 클래스 컴포넌트
+// --------------------------------------------------------------------------
 
 /**
  * AccordionListClass 컴포넌트
