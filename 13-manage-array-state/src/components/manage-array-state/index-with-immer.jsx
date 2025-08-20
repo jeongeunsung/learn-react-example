@@ -1,16 +1,18 @@
 import { useState } from 'react'
+import { useImmer } from 'use-immer'
 import './style.css'
 
 const INITIAL_ARRAY_STATE = ['A', 'B', 'C']
 
 export default function ManageArrayState() {
-  const [arrayState, setArrayState] = useState(INITIAL_ARRAY_STATE)
+  const [arrayState, setArrayState] = useImmer(INITIAL_ARRAY_STATE)
+
   const maxValue = arrayState.length - 1
 
   const handleRemoveFirstItem = () => {
-    if (arrayState.length === 0) return
-    const [, ...nextArrayState] = arrayState
-    setArrayState(nextArrayState)
+    setArrayState((draft) => {
+      draft.shift()
+    })
   }
 
   const handleRemoveB = () => {
@@ -19,13 +21,15 @@ export default function ManageArrayState() {
   }
 
   const handleAddFirstX = () => {
-    const nextArrayState = ['X', ...arrayState]
-    setArrayState(nextArrayState)
+    setArrayState((draft) => {
+      draft.unshift('X')
+    })
   }
 
   const handleAddLastY = () => {
-    const nextArrayState = [...arrayState, 'Y']
-    setArrayState(nextArrayState)
+    setArrayState((draft) => {
+      draft.push('Y')
+    })
   }
 
   const handleAllClear = () => {
@@ -75,7 +79,7 @@ export default function ManageArrayState() {
 
   return (
     <section className="manage-array-state">
-      <h2>배열 상태 관리 실습</h2>
+      <h2>배열 상태 관리 실습 (immer)</h2>
 
       <output>
         <strong>배열 상태</strong> : {arrayState.join(', ')}
