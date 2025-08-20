@@ -1,9 +1,12 @@
 import './print-count.css'
 
-export default function PrintCount() {
+// Stateless
+export default function PrintCount(props) {
+  console.log('PrintCount 렌더링')
+
   return (
     <output className="print-count" style={{ padding: 12 }}>
-      0
+      {props.count}
     </output>
   )
 }
