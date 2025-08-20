@@ -3,6 +3,7 @@ import './style.css'
 export default function ManageArrayState() {
   // 실습 코드 작성
   // ...
+
   const arrayState = 'A, B, C'
 
   return (
