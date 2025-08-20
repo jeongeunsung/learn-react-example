@@ -1,5 +1,4 @@
 import react from '@vitejs/plugin-react'
-
 import path from 'node:path'
 import process from 'node:process'
 import { fileURLToPath } from 'node:url'
@@ -13,6 +12,7 @@ export default defineConfig(({ mode }) => {
   const isProduction = mode === 'production'
 
   return {
+    // base: '/',
     plugins: [react(), viteCompression()],
     server: {
       port: 3000,
