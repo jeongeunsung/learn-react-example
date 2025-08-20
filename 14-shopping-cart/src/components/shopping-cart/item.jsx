@@ -1,8 +1,12 @@
-import { useImmer } from 'use-immer'
 import CartCounter from './counter'
 
-export default function CartItem({ product }) {
-  const [quantity, setQuantity] = useImmer(product.quantity)
+export default function CartItem({ product, setProducts }) {
+  const handleUpdateQuantity = (amount) => {
+    setProducts((draft) => {
+      const updateProduct = draft.find((p) => p.id === product.id)
+      updateProduct.quantity += amount
+    })
+  }
 
   return (
     <li className="flex gap-2 justify-between py-2 px-0.5 text-[18px]">
@@ -15,8 +19,8 @@ export default function CartItem({ product }) {
         <strong>{product.name}</strong> {product.price.toLocaleString()}원
       </p>
       <CartCounter
-        quantity={quantity}
-        setQuantity={setQuantity}
+        quantity={product.quantity}
+        updateQuantity={handleUpdateQuantity}
         inventory={product.inventory}
       />
     </li>
