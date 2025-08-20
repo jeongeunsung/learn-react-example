@@ -1,9 +1,31 @@
-export default function CartCounter() {
+export default function CartCounter({ quantity, setQuantity, inventory }) {
+  const isMinQuantity = quantity === 1
+  const isMaxQuantity = quantity === inventory
+
   return (
     <div role="group" className="flex gap-1 text-xl">
-      <button type="button">-</button>
-      <output>0</output>
-      <button type="button">+</button>
+      <button
+        type="button"
+        className={buttonClassNames}
+        aria-label="수량 1 감소"
+        disabled={isMinQuantity}
+        onClick={() => setQuantity((q) => q - 1)}
+      >
+        -
+      </button>
+      <output aria-label={`수량: ${quantity}개`}>{quantity}</output>
+      <button
+        type="button"
+        className={buttonClassNames}
+        aria-label="수량 1 증가"
+        disabled={isMaxQuantity}
+        onClick={() => setQuantity((q) => q + 1)}
+      >
+        +
+      </button>
     </div>
   )
 }
+
+const buttonClassNames =
+  'cursor-pointer grid place-content-center w-6 h-6 leading-0 disabled:cursor-not-allowed'
