@@ -1,5 +1,92 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useId, useState } from 'react'
 import { LearnSection } from '@/components'
+
+export default function App() {
+  useEffect(() => {
+    console.log('App 마운트됨')
+  }, [])
+
+  const [title, setTitle] = useState('실습 ')
+  useEffect(() => {
+    console.log(`%c변경된 title 상태 값 "${title}"`, 'color: purple')
+    document.title = title
+  }, [title])
+
+  const [isShown, setIsShown] = useState(false)
+  const checkboxId = useId()
+
+  console.log('App 렌더링')
+
+  return (
+    <LearnSection
+      title={title}
+      showTitle
+      className="p-10 flex flex-col gap-4 text-indigo-600"
+    >
+      <button
+        type="button"
+        className="button"
+        onClick={() => setTitle((t) => t + '😉')}
+      >
+        상태 변경
+      </button>
+
+      <div role="group" className="flex gap-1 items-center">
+        <input
+          type="checkbox"
+          id={checkboxId}
+          checked={isShown}
+          onChange={(e) => setIsShown(e.target.checked)}
+        />
+        <label htmlFor={checkboxId}>Paragraph 마운트 / 언마운트</label>
+      </div>
+
+      {isShown && <Paragraph />}
+    </LearnSection>
+  )
+}
+
+function Paragraph() {
+  useEffect(() => {
+    console.log('Paragraph 마운트됨')
+
+    // 이벤트 리스너 추가
+    const handleClick = () => {
+      console.log('문서 클릭!!!')
+    }
+
+    console.log('이벤트 리스너 추가')
+    document.addEventListener('click', handleClick)
+
+    // 타이머 연결
+    console.log('타이머 연결')
+    const timeoutId = setInterval(() => {
+      console.count('count')
+    }, 1000)
+
+    return () => {
+      console.log('Paragraph 언마운트')
+
+      // 이벤트 리스너 제거
+      console.log('이벤트 리스너 제거')
+      document.removeEventListener('click', handleClick)
+
+      // 타이머 해제
+      console.log('타이머 해제')
+      clearInterval(timeoutId)
+    }
+  }, [])
+
+  console.log('Paragraph 렌더링')
+  return (
+    <p className="text-indigo-800">
+      클래스 컴포넌트의 "자주 사용되는 라이프사이클 메서드" 실습을 이펙트 훅으로
+      재현
+    </p>
+  )
+}
+
+// --------------------------------------------------------------------------
 
 // 1. 생성 (상태 초기화 : 지연된...)
 const getInitialCount = () => {
@@ -13,7 +100,7 @@ const getInitialCount = () => {
   return 1
 }
 
-export default function App() {
+function HookFlowDemo() {
   const [count, setCount] = useState(getInitialCount) // ... 1, 11
 
   useEffect(
