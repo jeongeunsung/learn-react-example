@@ -1,7 +1,62 @@
 import { useEffect, useId, useState } from 'react'
 import { LearnSection } from '@/components'
+import { tw } from './utils'
 
 export default function App() {
+  // const [width, setWidth] = useState(0)
+  // const [height, setHeight] = useState(0)
+
+  const [dimention, setDimention] = useState({ width: 0, height: 0 })
+
+  useEffect(() => {
+    const handleResize = () => {
+      const { innerWidth: width, innerHeight: height } = window
+      setDimention({ width, height })
+
+      // setWidth(window.innerWidth)
+      // setHeight(window.innerHeight)
+    }
+
+    // 리사이즈 이벤트 연결
+    // (리사이트 이벤트가 발동할 때마다, 외부 시스템인 브라우저와 리액트 앱을 동기화)
+    window.addEventListener('resize', handleResize)
+
+    // 마운트 이후, 리사이즈 실행 (상태 업데이트 -> 화면 변경)
+    handleResize()
+
+    return () => {
+      // 리사이즈 이벤트 제거
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
+  const { width, height } = dimention
+
+  console.count('렌더링 횟수')
+
+  return (
+    <LearnSection title="추가 실습" showTitle>
+      <output
+        className={tw(
+          'block',
+          'max-w-4xl mx-auto mt-5 p-3',
+          'rounded-xl',
+          'bg-black text-amber-500',
+          'text-2xl text-center'
+        )}
+      >
+        {width} × {height}
+        {/* {dimention.width} × {dimention.height} */}
+      </output>
+      <p className="mt-3">
+        뷰포트 크기를 조정할 때마다 너비(width)와 높이(height) 정보를 화면에
+        출력하는 이펙트를 추가합니다.
+      </p>
+    </LearnSection>
+  )
+}
+
+function EffectHookSummary() {
   useEffect(() => {
     console.log('App 마운트됨')
   }, [])
