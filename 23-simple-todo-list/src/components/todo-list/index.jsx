@@ -70,17 +70,19 @@ export default function SimpleTodoList() {
   }
 
   // 할 일 삭제
-  const handleDeleteTodo = (id) => {
-    // 리액트의 방식 (불변성 유지)
-    // setTodoList(todoList.filter((todo) => todo.id !== id))
+  const handleDeleteTodo = function (id) {
+    return function () {
+      // 리액트의 방식 (불변성 유지)
+      // setTodoList(todoList.filter((todo) => todo.id !== id))
 
-    // 자바스크립트의 방식 (draft를 사용한 변형)
-    // 배열의 특정 인덱스 순서의 원소를 삭제하려면?
-    // 어떤 메서드를 사용하면 좋을까요? findIndex, splice
-    setTodoList((draft) => {
-      const deleteIndex = draft.findIndex((item) => item.id === id)
-      if (deleteIndex > -1) draft.splice(deleteIndex, 1)
-    })
+      // 자바스크립트의 방식 (draft를 사용한 변형)
+      // 배열의 특정 인덱스 순서의 원소를 삭제하려면?
+      // 어떤 메서드를 사용하면 좋을까요? findIndex, splice
+      setTodoList((draft) => {
+        const deleteIndex = draft.findIndex((item) => item.id === id)
+        if (deleteIndex > -1) draft.splice(deleteIndex, 1)
+      })
+    }
   }
 
   // 파생된 상태 설정
@@ -123,7 +125,13 @@ export default function SimpleTodoList() {
                     {doit}
                   </label>
                 </div>
-                <button type="button" onClick={handleDeleteTodo.bind(null, id)}>
+                <button
+                  type="button"
+                  // onClick={() => handleDeleteTodo(id)}
+                  // onClick={handleDeleteTodo.bind(null, id)}
+                  // onClick={handleDeleteTodo.call(null, id)}
+                  onClick={handleDeleteTodo(id)}
+                >
                   삭제
                 </button>
               </li>
