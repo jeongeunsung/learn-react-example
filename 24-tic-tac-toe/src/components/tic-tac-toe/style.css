@@ -6,7 +6,7 @@
 }
 
 .Status {
-  @apply text-xl;
+  @apply text-xl mb-2;
 }
 
 .Squares {
@@ -29,7 +29,7 @@
 
 .History {
   @apply min-w-25;
-  @apply mt-14.5;
+  @apply mt-8.5;
 }
 
 .HistoryList {
