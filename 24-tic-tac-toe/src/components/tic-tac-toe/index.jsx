@@ -1,3 +1,5 @@
+import { useState } from 'react'
+import { GRID, INITIAL_SQUARES, PLAYER } from './constants'
 import './style.css'
 
 export default function TicTacToe() {
@@ -9,13 +11,7 @@ export default function TicTacToe() {
   )
 }
 
-// 게임 상수
-const PLAYER = {
-  ONE: '⚫️',
-  TWO: '🟨',
-}
-
-const INITIAL_SQUARES = Array(9).fill(null)
+// --------------------------------------------------------------------------
 
 function Board() {
   return (
@@ -35,32 +31,69 @@ function Status() {
 }
 
 function Squares() {
-  const squares = [...INITIAL_SQUARES]
+  // 게임 상태 설정
+  // 게임 보드를 구성하는 사각형을 관리하는 상태
+  const [squares, setSquares] = useState(INITIAL_SQUARES)
+  // 게임 진행하는 순서 상태
+  const [gameIndex, setGameIndex] = useState(0)
+
+  // 게임 진행되는 순서(상태)에 의존하는 데이터(상태)
+  // 파생된 상태(React: derived state / Vue: computed property)
+  const nextPlayer = gameIndex % 2 === 0 ? PLAYER.ONE : PLAYER.TWO
+
+  // 부수 효과
+  // - 이벤트 핸들러 (handle*)
+  // - 이펙트 훅 (useEffect)
+  const playGame = (squareIndex, e) => {
+    // 접근성 (리액트 처리 못함)
+    if (e.target.getAttribute('aria-disabled') === 'true') return
+
+    // 사용자가 게임을 진행하면 인덱스가 변경
+    const nextGameIndex = gameIndex + 1
+    setGameIndex(nextGameIndex)
+
+    // 사용자가 클릭한 사각형(인덱스)에 nextPlayer를 설정
+    // ['⚫️', null, '🟨', ..., null]
+    const nextSquares = squares.map((square, index) =>
+      index === squareIndex ? nextPlayer : square
+    )
+
+    setSquares(nextSquares)
+  }
 
   return (
     <div
       className="Squares"
       role="grid"
       aria-label="틱택토 게임판"
-      aria-rowcount={3}
-      aria-colcount={3}
+      aria-rowcount={GRID.ROWS}
+      aria-colcount={GRID.COLS}
     >
       {squares.map((square, index) => {
-        return <SquareButton key={index}>{index}</SquareButton>
+        return (
+          <SquareButton key={index} index={index} onPlay={playGame}>
+            {square}
+          </SquareButton>
+        )
       })}
     </div>
   )
 }
 
-function SquareButton({ children }) {
+function SquareButton({ children, index, onPlay }) {
+  const isEmpty = !children
+  const isDisabled = !isEmpty
+  const label = `${index + 1}번째 칸, ${isEmpty ? '비어 있음' : children}`
+
   return (
     <button
       role="gridcell"
-      aria-rowindex={1}
-      aria-colindex={1}
       className="Square"
-      aria-label="첫 번째 칸, 비어 있음"
-      disabled={false}
+      aria-disabled={isDisabled}
+      aria-rowindex={Math.floor(index / GRID.ROWS) + 1}
+      aria-colindex={(index % GRID.COLS) + 1}
+      aria-label={label}
+      onClick={(e) => onPlay(index, e)}
     >
       {children}
     </button>
