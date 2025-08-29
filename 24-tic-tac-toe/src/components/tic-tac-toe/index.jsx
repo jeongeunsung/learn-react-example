@@ -20,23 +20,6 @@ export default function TicTacToe() {
 // --------------------------------------------------------------------------
 
 function Board() {
-  return (
-    <div className="Board">
-      <Status />
-      <SquaresGrid />
-    </div>
-  )
-}
-
-function Status() {
-  return (
-    <h2 className="Status" role="status">
-      다음 플레이어 🟨
-    </h2>
-  )
-}
-
-function SquaresGrid() {
   // 게임 상태 설정
   // 게임 보드를 구성하는 사각형을 관리하는 상태
   const [squares, setSquares] = useState(INITIAL_SQUARES)
@@ -47,7 +30,12 @@ function SquaresGrid() {
   const nextPlayer = gameIndex % 2 === 0 ? PLAYER.ONE : PLAYER.TWO
 
   // 게임이 진행될 때(턴이 변경될 때)마다 게임의 승자(winner)가 있는 지 확인
-  const winner = checkWinner(squares)
+  const winner = checkWinner(squares) // null
+
+  // 진행 중인 게임에 위너가 없고 게임이 무승부로 끝났다며?
+  // 이런 의미의 파생된 상태를 정의하고 싶다.
+  // 게임이 비긴 상황 = 위너가 없고, 게임 보드판에 빈 칸이 없다.
+  const isDraw = !winner && gameIndex === GRID.COLS * GRID.ROWS
 
   // 부수 효과
   // - 이벤트 핸들러 (handle*)
@@ -78,6 +66,31 @@ function SquaresGrid() {
     setSquares(nextSquares)
   }
 
+  // 상태 메시지
+  // - 다음 플레이어 [  ]
+  // - 게임 위너!! [   ]
+  // - 무승부! 게임 위너가 없습니다.
+  let statusMessage = `다음 플레이어 ${nextPlayer}`
+  if (winner) statusMessage = `게임 위너! ${winner.player}`
+  if (isDraw) statusMessage = '무승부! 게임 위너는 없습니다.'
+
+  return (
+    <div className="Board">
+      <Status>{statusMessage}</Status>
+      <SquaresGrid squares={squares} onPlay={playGame} />
+    </div>
+  )
+}
+
+function Status({ children }) {
+  return (
+    <h2 className="Status" role="status">
+      {children}
+    </h2>
+  )
+}
+
+function SquaresGrid({ squares, onPlay }) {
   const handleKeyControls = (e) => {
     const { target, key } = e
     // 사용자가 기본적으로 탐색하는데 사용하는
@@ -132,7 +145,7 @@ function SquaresGrid() {
     >
       {squares.map((square, index) => {
         return (
-          <SquareGridCell key={index} index={index} onPlay={playGame}>
+          <SquareGridCell key={index} index={index} onPlay={onPlay}>
             {square}
           </SquareGridCell>
         )
