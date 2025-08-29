@@ -1,5 +1,11 @@
 import { useState } from 'react'
-import { GRID, INITIAL_SQUARES, PLAYER, getPlayerName } from './constants'
+import {
+  GRID,
+  INITIAL_SQUARES,
+  PLAYER,
+  checkWinner,
+  getPlayerName,
+} from './constants'
 import './style.css'
 
 export default function TicTacToe() {
@@ -39,12 +45,19 @@ function SquaresGrid() {
   // 파생된 상태: 게임 진행되는 순서(상태)에 의존하는 데이터(상태)
   // (React: derived state / Vue: computed property)
   const nextPlayer = gameIndex % 2 === 0 ? PLAYER.ONE : PLAYER.TWO
+
+  // 게임이 진행될 때(턴이 변경될 때)마다 게임의 승자(winner)가 있는 지 확인
+  const winner = checkWinner(squares)
+  console.log(winner)
+
   // 부수 효과
   // - 이벤트 핸들러 (handle*)
   // - 이펙트 훅 (useEffect)
   const playGame = (squareIndex, e) => {
     // 접근성 준수를 위해 필요 (리액트의 렌더링과 무관한 부수 효과)
-    if (e.target.getAttribute('aria-disabled') === 'true') return
+    if (e.target.getAttribute('aria-disabled') === 'true') {
+      return alert('이미 게임이 진행된 칸입니다. 다른 빈 칸에 말을 놓으세요.')
+    }
     // 게임 인덱스 상태 업데이트
     const nextGameIndex = gameIndex + 1
     setGameIndex(nextGameIndex)
@@ -78,7 +91,7 @@ function SquareGridCell({ children, index, onPlay }) {
   // 이 칸이 이미 선택된 경우, 비활성 상태 (null이 아닌 경우)
   const isDisabled = !!children
   // 현재 칸의 플레이어 이름 ('플레이어 1 | 2' 또는 '비어 있음')
-  const playerName = getPlayerName(children)
+  const playerName = getPlayerName(children) // null
   // 그리드 셀 레이블 설정 (예: '1번째 칸, 플레이어1')
   const label = `${index + 1}번째 칸, ${playerName}`
   // 현재 칸의 행 인덱스 계산 (인덱스를 1부터 시작하도록 변환)
