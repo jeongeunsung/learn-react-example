@@ -10,22 +10,17 @@ import {
 import './style.css'
 
 export default function TicTacToe() {
-  return (
-    <div className="Game">
-      <Board />
-      <History />
-    </div>
-  )
-}
-
-// --------------------------------------------------------------------------
-
-function Board() {
   // 게임 상태 설정
   // 게임 보드를 구성하는 사각형을 관리하는 상태
-  const [squares, setSquares] = useState(INITIAL_SQUARES)
+  const [gameHistory, setGameHistory] = useState([INITIAL_SQUARES])
   // 게임 진행하는 순서 상태
   const [gameIndex, setGameIndex] = useState(0)
+
+  // 화면에 렌더링을 해야할 현재 게임판
+  // gameHistory, gameIndex 상태에서 파생된 상태
+  // 예) squares, currentSquares, board
+  const squares = gameHistory[gameIndex]
+
   // 파생된 상태: 게임 진행되는 순서(상태)에 의존하는 데이터(상태)
   // (React: derived state / Vue: computed property)
   const nextPlayer = gameIndex % 2 === 0 ? PLAYER.ONE : PLAYER.TWO
@@ -64,7 +59,9 @@ function Board() {
     const nextSquares = squares.map((square, index) =>
       index === squareIndex ? nextPlayer : square
     )
-    setSquares(nextSquares)
+
+    const nextGameHistory = [...gameHistory, nextSquares]
+    setGameHistory(nextGameHistory)
   }
 
   // 상태 메시지
@@ -75,6 +72,22 @@ function Board() {
   if (winner) statusMessage = `게임 위너! ${winner.player}`
   if (isDraw) statusMessage = '무승부! 게임 위너는 없습니다.'
 
+  return (
+    <div className="Game">
+      <Board
+        statusMessage={statusMessage}
+        winner={winner}
+        squares={squares}
+        playGame={playGame}
+      />
+      <History />
+    </div>
+  )
+}
+
+// --------------------------------------------------------------------------
+
+function Board({ statusMessage, winner, squares, playGame }) {
   return (
     <div className="Board">
       <Status>{statusMessage}</Status>
@@ -146,7 +159,6 @@ function SquaresGrid({ winner, squares, onPlay }) {
     >
       {squares.map((square, index) => {
         const isWinnerPattern = winner?.pattern?.includes(index)
-        console.log(isWinnerPattern)
         return (
           <SquareGridCell
             isWinnerPattern={isWinnerPattern}
