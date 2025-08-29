@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { tw } from '@/utils'
 import {
   GRID,
   INITIAL_SQUARES,
@@ -77,7 +78,7 @@ function Board() {
   return (
     <div className="Board">
       <Status>{statusMessage}</Status>
-      <SquaresGrid squares={squares} onPlay={playGame} />
+      <SquaresGrid winner={winner} squares={squares} onPlay={playGame} />
     </div>
   )
 }
@@ -90,7 +91,7 @@ function Status({ children }) {
   )
 }
 
-function SquaresGrid({ squares, onPlay }) {
+function SquaresGrid({ winner, squares, onPlay }) {
   const handleKeyControls = (e) => {
     const { target, key } = e
     // 사용자가 기본적으로 탐색하는데 사용하는
@@ -144,8 +145,15 @@ function SquaresGrid({ squares, onPlay }) {
       aria-colcount={GRID.COLS}
     >
       {squares.map((square, index) => {
+        const isWinnerPattern = winner?.pattern?.includes(index)
+        console.log(isWinnerPattern)
         return (
-          <SquareGridCell key={index} index={index} onPlay={onPlay}>
+          <SquareGridCell
+            isWinnerPattern={isWinnerPattern}
+            key={index}
+            index={index}
+            onPlay={onPlay}
+          >
             {square}
           </SquareGridCell>
         )
@@ -154,7 +162,7 @@ function SquaresGrid({ squares, onPlay }) {
   )
 }
 
-function SquareGridCell({ children, index, onPlay }) {
+function SquareGridCell({ isWinnerPattern, children, index, onPlay }) {
   // 이 칸이 이미 선택된 경우, 비활성 상태 (null이 아닌 경우)
   const isDisabled = !!children
   // 현재 칸의 플레이어 이름 ('플레이어 1 | 2' 또는 '비어 있음')
@@ -172,7 +180,7 @@ function SquareGridCell({ children, index, onPlay }) {
   return (
     <button
       role="gridcell"
-      className="Square"
+      className={tw('Square', isWinnerPattern && 'bg-yellow-300!')}
       onClick={handlePlay}
       aria-disabled={isDisabled}
       aria-rowindex={rowIndex}
