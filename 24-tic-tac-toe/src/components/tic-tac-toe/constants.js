@@ -34,7 +34,6 @@ export const checkWinner = (squares) => {
   // 게임 승자 확인
   // 게임 승리 패턴 순환 (8번)
   for (const [x, y, z] of WINNER_PATTERN) {
-    console.log(x, y, z)
     // 전달 받은 사각형 집합(배열)
     // [null, null, null, '⚫️', null, ...]
     const player = squares[x]
