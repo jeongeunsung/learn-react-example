@@ -46,7 +46,7 @@
 }
 
 .HistoryButton {
-  @apply relative;
+  @apply relative cursor-pointer;
   @apply disabled:cursor-not-allowed;
   @apply border-0 rounded;
   @apply py-[0.4em] px-[0.8em];
