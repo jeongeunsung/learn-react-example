@@ -13,12 +13,6 @@ export default function App() {
     <LearnSection title="DOM 참조">
       <ClassRef />
 
-      <AutoFocusInput
-        type="checkbox"
-        containerProps={{ title: '컨테이너' }}
-        label="자동 초점 이동 인풋"
-        shouldFocus={true}
-      />
       <button
         className="button mb-5"
         type="button"
@@ -49,13 +43,19 @@ function GsapDemoUseGSAP() {
   useGSAP(
     () => {
       // 선택자
-      gsap.to('.box', { x: 360 })
+      gsap.to('.box', { x: 80, stagger: 0.3, delay: 0.3 })
     },
     { scope: containerRef }
   )
 
   return (
     <div ref={containerRef}>
+      <figure className="box size-20 bg-black text-white grid place-content-center">
+        박스
+      </figure>
+      <figure className="box size-20 bg-black text-white grid place-content-center">
+        박스
+      </figure>
       <figure className="box size-20 bg-black text-white grid place-content-center">
         박스
       </figure>
