@@ -22,5 +22,6 @@ export const fetchDataByQuery = async (query, options = {}) => {
       item.user = user
     }
   }
+
   return postData
 }
