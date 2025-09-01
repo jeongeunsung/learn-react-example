@@ -1,3 +1,4 @@
+import { useGSAP } from '@gsap/react'
 import { useEffect, useRef, useState } from 'react'
 import confetti from 'canvas-confetti'
 import gsap from 'gsap'
@@ -16,13 +17,42 @@ export default function App() {
       >
         {visible ? '감춤' : '표시'}
       </button>
-      {visible && <GsapDemoRefCallback />}
+      {visible && <GsapDemoUseGSAP />}
+
+      <div className="box size-20 bg-red-500 text-white grid place-content-center">
+        box 1
+      </div>
+      <div className="box size-20 bg-amber-500 text-white grid place-content-center">
+        box 2
+      </div>
     </LearnSection>
   )
 }
 
 // --------------------------------------------------------------------------
 // GSAP
+
+gsap.registerPlugin(useGSAP)
+
+function GsapDemoUseGSAP() {
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  useGSAP(
+    () => {
+      // 선택자
+      gsap.to('.box', { x: 360 })
+    },
+    { scope: containerRef }
+  )
+
+  return (
+    <div ref={containerRef}>
+      <figure className="box size-20 bg-black text-white grid place-content-center">
+        박스
+      </figure>
+    </div>
+  )
+}
 
 function GsapDemoRefCallback() {
   return (

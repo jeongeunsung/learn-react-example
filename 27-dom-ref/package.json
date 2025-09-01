@@ -15,6 +15,7 @@
     "clean": "rimraf -rf dist"
   },
   "dependencies": {
+    "@gsap/react": "^2.1.2",
     "canvas-confetti": "^1.9.3",
     "gsap": "^3.13.0",
     "immer": "^10.1.1",
