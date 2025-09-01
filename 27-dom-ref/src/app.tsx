@@ -1,16 +1,94 @@
 import { useEffect, useRef, useState } from 'react'
 import confetti from 'canvas-confetti'
+import VanillaTilt, { type HTMLVanillaTiltElement } from 'vanilla-tilt'
 import { LearnSection } from '@/components'
 
 export default function App() {
+  const [visible, setVisible] = useState<boolean>(true)
+
   return (
-    <LearnSection title="DOM 참조" style={{ flexDirection: 'column' }}>
-      <ConfettiDemo />
+    <LearnSection title="DOM 참조">
+      <button
+        className="button mb-5"
+        type="button"
+        onClick={() => setVisible((v) => !v)}
+      >
+        {visible ? '박스 감춤' : '박스 표시'}
+      </button>
+      {visible && <VanillaTiltEffectDemo />}
     </LearnSection>
   )
 }
 
 // --------------------------------------------------------------------------
+// Vanilla Tilt Effect
+
+const TILT_OPTIONS = {
+  'glare': true,
+  'max-glare': 0.7,
+  'scale': 1.2,
+}
+
+function VanillaTiltEffectDemo() {
+  const [boxes] = useState(Array(3).fill(null))
+
+  // 1. ref 속성 + 콜백(callback) 함수 설정 방법
+  const _boxRefCallback = (element: HTMLElement) => {
+    console.log('바닐라 틸티 3D 이펙트 설정')
+    VanillaTilt.init(element, TILT_OPTIONS)
+
+    // 클린업 (React 19+)
+    return () => {
+      console.log('바닐라 틸티 3D 이펙트 정리')
+      ;(element as HTMLVanillaTiltElement).vanillaTilt.destroy()
+    }
+  }
+
+  // 2.  ref 속성 + useRef 훅 + useEffect 훅 연결하는 방법
+  const boxesRef = useRef<HTMLElement[]>([]) // RefObject { current: <figure14> }
+  useEffect(() => {
+    const boxElements = boxesRef.current
+
+    if (boxElements.length > 0) {
+      for (const element of boxElements) {
+        if (element) {
+          console.log('바닐라 틸티 3D 이펙트 설정')
+          console.log(element)
+          VanillaTilt.init(element, TILT_OPTIONS)
+        }
+      }
+    }
+
+    return () => {
+      if (boxElements.length > 0) {
+        console.log('바닐라 틸티 3D 이펙트 정리')
+        for (const element of boxElements) {
+          ;(element as HTMLVanillaTiltElement).vanillaTilt?.destroy()
+        }
+      }
+    }
+  }, [])
+
+  return (
+    <div role="group" className="text-4xl space-y-2">
+      {boxes.map((_, index) => (
+        <figure
+          key={index}
+          // ref={_boxRefCallback}
+          ref={(element) => {
+            if (element) boxesRef.current.push(element)
+          }}
+          className="size-40 bg-black text-white grid place-content-center uppercase"
+        >
+          box {index + 1}
+        </figure>
+      ))}
+    </div>
+  )
+}
+
+// --------------------------------------------------------------------------
+// Canvas Confetti
 
 interface Size {
   width: number

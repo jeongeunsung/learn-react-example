@@ -6,6 +6,7 @@ import pluginReactHooks from 'eslint-plugin-react-hooks'
 import pluginReactRefresh from 'eslint-plugin-react-refresh'
 import { defineConfig, globalIgnores } from 'eslint/config'
 import globals from 'globals'
+import path from 'node:path'
 import tseslint from 'typescript-eslint'
 
 export default defineConfig([
@@ -36,6 +37,7 @@ export default defineConfig([
   },
 
   tseslint.configs.recommended,
+
   pluginReact.configs.flat['jsx-runtime'],
   pluginReactHooks.configs['recommended-latest'],
   pluginJsxA11y.flatConfigs.recommended,
