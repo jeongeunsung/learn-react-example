@@ -1,5 +1,6 @@
 import { type ChangeEvent, useState } from 'react'
 import { LearnSection } from '@/components'
+import { useInput, useToggleState } from '@/hooks'
 import { tw } from './utils'
 
 export default function App() {
@@ -57,30 +58,18 @@ function CustomHookDemo() {
   const language = toggle ? 'ko' : 'en'
   const isKorean = language.includes('ko')
 
-  // [관심사] 인풋 상태 관리
-  // 상태
-  const [name, setName] = useState<string>('')
-  // 상태 업데이트
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value)
-  }
+  const inputProps = useInput('')
 
   return (
     <>
       <div role="group" className="flex flex-col gap-2 my-4">
         <label htmlFor="user-input">이름</label>
-        <input
-          name={name}
-          onChange={handleChange}
-          type="text"
-          id="user-input"
-          className="my-2"
-        />
-        <output>{name || '이름 값 출력'}</output>
+        <input type="text" id="user-input" className="my-2" {...inputProps} />
+        <output>{inputProps.value || '이름 값 출력'}</output>
       </div>
       <button
         type="button"
-        className="cursor-pointer bg-black text-white p-2"
+        className="select-none cursor-pointer bg-black text-white p-2"
         lang={isKorean ? 'en' : 'ko'}
         onClick={setToggle}
       >
@@ -89,22 +78,3 @@ function CustomHookDemo() {
     </>
   )
 }
-
-// --------------------------------------------------------------------------
-// 커스텀 훅 (use로 시작하는 사용자 정의 함수)
-
-// const [toggle, setToggle] = useToggleState(initialValue)
-function useToggleState(initialValue: boolean = true) {
-  // [관심사] 토글 상태 관리
-  // 상태
-  const [toggle, setToggle] = useState<boolean>(initialValue)
-
-  // 상태 업데이트
-  const update = () => setToggle((t) => !t)
-
-  // 사용자 정의 함수의 반환값 타입 [state, setState]
-  return [toggle, update] as const
-}
-
-// useInput(initialValue)
-function useInput() {}
