@@ -9,7 +9,7 @@ export default function LearnSection(props: Props) {
   return (
     <section className={tw('p-5')} {...restProps}>
       <h1
-        className={tw('text-2xl text-neutral-950 font-semibold mb-2', [
+        className={tw('text-2xl text-inherit font-semibold mb-2', [
           showTitle || 'sr-only',
         ])}
       >
