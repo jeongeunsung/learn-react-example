@@ -4,6 +4,7 @@ import {
   type FormEvent,
   type ReactNode,
   useId,
+  useRef,
   useState,
 } from 'react'
 import { type ClassValue } from 'clsx'
@@ -33,30 +34,10 @@ const validatePassword = (value: string): string => {
 }
 
 export default function LoginForm() {
-  // 폼 상태 관리 (실시간 검증 필요)
-
-  const [emailValue, setEmailValue] = useState<string>('')
-  const handleChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target
-    setEmailValue(value)
-
-    if (submitted) {
-      setErrors((draft) => {
-        draft.email = validateEmail(value)
-      })
-    }
-  }
-
-  const [passwordValue, setPasswordValue] = useState<string>('')
-  const handleChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target
-    setPasswordValue(value)
-    if (submitted) {
-      setErrors((draft) => {
-        draft.password = validatePassword(value)
-      })
-    }
-  }
+  // 비제어 방식으로 폼 컨트롤
+  // 참조 객체 활용
+  const emailRef = useRef<HTMLInputElement>(null)
+  const passwordRef = useRef<HTMLInputElement>(null)
 
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const handleTogglePassword = () => setShowPassword((p) => !p)
@@ -67,24 +48,27 @@ export default function LoginForm() {
     password: '',
   })
 
-  // 제출 여부를 확인하기 위한 상태 설정
-  const [submitted, setSubmitted] = useState<boolean>(false)
-
   const handleLogin = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    const emailResult = validateEmail(emailValue)
-    const passwordResult = validatePassword(passwordValue)
+    const emailElement = emailRef.current
+    const passwordElement = passwordRef.current
 
-    // 유효성 검사
-    if (emailResult.length === 0 && passwordResult.length === 0) {
-      globalThis.alert('로그인 성공!')
-      console.log({ email: emailValue, password: passwordValue })
-    } else {
-      setErrors({ email: emailResult, password: passwordResult })
+    if (emailElement && passwordElement) {
+      const emailResult = validateEmail(emailElement.value)
+      const passwordResult = validatePassword(passwordElement.value)
+
+      // 유효성 검사
+      if (emailResult.length === 0 && passwordResult.length === 0) {
+        globalThis.alert('로그인 성공!')
+        console.log({
+          email: emailElement.value,
+          password: passwordElement.value,
+        })
+      } else {
+        setErrors({ email: emailResult, password: passwordResult })
+      }
     }
-
-    setSubmitted(true)
   }
 
   return (
@@ -97,13 +81,13 @@ export default function LoginForm() {
     >
       <EmailInput
         helpMessage="메일 주소는 @likelion.dev로 끝나야 합니다."
-        inputProps={{ value: emailValue, onChange: handleChangeEmail }}
+        inputProps={{ ref: emailRef }}
         error={errors.email}
       />
       <PasswordInput
         showPassword={showPassword}
         buttonProps={{ onClick: handleTogglePassword }}
-        inputProps={{ value: passwordValue, onChange: handleChangePassword }}
+        inputProps={{ ref: passwordRef }}
         error={errors.password}
       />
       <SubmitButton />
