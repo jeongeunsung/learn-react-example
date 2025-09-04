@@ -2,6 +2,7 @@ import { type ComponentProps, type ReactNode, useId } from 'react'
 import { type FieldValues, type SubmitHandler, useForm } from 'react-hook-form'
 import { type ClassValue } from 'clsx'
 import { Eye, EyeOff, HelpCircle } from 'lucide-react'
+import { toast } from 'sonner'
 import { useToggleState } from './hooks'
 import { tw } from './utils'
 
@@ -24,10 +25,19 @@ export default function LoginForm() {
     register,
     formState: { errors },
     handleSubmit,
+    reset,
   } = useForm()
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    alert(JSON.stringify(data, null, 2))
+    toast.success(JSON.stringify(data, null, 2), {
+      action: {
+        label: 'Reset',
+        onClick: () => {
+          reset({ email: '', password: '' })
+        },
+      },
+    })
+
     console.log(data)
   }
 
