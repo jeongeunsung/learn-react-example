@@ -1,24 +1,21 @@
 import { useCallback } from 'react'
 import { useImmer } from 'use-immer'
-import type { State } from '@/@types/global'
 
-export default function useMutation<A, R>({
-  mutateFn,
-}: {
-  mutateFn: (arg: A) => Promise<Response>
-}) {
-  const [state, setState] = useImmer<State<R>>({
-    status: 'idle',
-    error: null,
-    data: null,
-  })
+const INITIAL_STATE = {
+  status: 'idle',
+  error: null,
+  data: null,
+}
+
+export default function useMutation({ mutateFn, onSuccess, onError }) {
+  const [state, setState] = useImmer(INITIAL_STATE)
 
   const isLoading = state.status === 'pending'
   const hasError = state.status === 'rejected'
   const isSuccess = state.status === 'resolved'
 
   const mutate = useCallback(
-    async (arg: A) => {
+    async (arg) => {
       // 서버에 데이터 뮤테이션 요청
       setState((draft) => {
         draft.status = 'pending'
@@ -41,22 +38,21 @@ export default function useMutation<A, R>({
           draft.status = 'resolved'
           draft.data = responseData
         })
+
+        onSuccess?.()
       } catch (error) {
         setState((draft) => {
           draft.status = 'rejected'
-          draft.error = new Error(error as string)
+          draft.error = new Error(error)
         })
+        onError?.()
       }
     },
     [mutateFn, setState]
   )
 
   const reset = useCallback(() => {
-    setState({
-      status: 'idle',
-      error: null,
-      data: null,
-    })
+    setState(INITIAL_STATE)
   }, [setState])
 
   return { ...state, isLoading, hasError, isSuccess, mutate, reset }
