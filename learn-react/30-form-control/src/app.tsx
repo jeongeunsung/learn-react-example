@@ -1,26 +1,99 @@
-import { type FormEvent, useId, useState } from 'react'
+import { type FormEvent, useId, useRef, useState } from 'react'
 import { LearnSection } from './components'
 import { useToggleState } from './hooks'
 
 export default function App() {
   return (
-    <div className="flex flex-col gap-8 p-10 bg-gray-50 min-h-screen">
-      <LearnSection
-        className="flex flex-col gap-2"
-        title="클릭 폼 (Click Form)"
-        showTitle
-      >
-        <ClickForm />
-      </LearnSection>
+    <>
+      <title>{'리액트 폼 컨트롤 (제어 또는 제어되지 않는)'}</title>
 
-      <LearnSection
-        className="flex flex-col gap-2"
-        title="서브밋 폼 (Submit Form)"
-        showTitle
-      >
-        <SubmitForm />
-      </LearnSection>
-    </div>
+      <div className="flex flex-col gap-8 p-10 bg-gray-50 min-h-screen">
+        <LearnSection
+          className="flex flex-col gap-2"
+          title="제어 컴포넌트"
+          showTitle
+        >
+          <ControlledInput />
+        </LearnSection>
+
+        <hr className="border-t-1 border-slate-300 w-full" />
+
+        <LearnSection
+          className="flex flex-col gap-2"
+          title="비제어(제어되지 않은) 컴포넌트"
+          showTitle
+        >
+          <UncontrolledInput />
+        </LearnSection>
+
+        {/* <LearnSection
+          className="flex flex-col gap-2"
+          title="클릭 폼 (Click Form)"
+          showTitle
+        >
+          <ClickForm />
+        </LearnSection> */}
+
+        {/* <LearnSection
+          className="flex flex-col gap-2"
+          title="서브밋 폼 (Submit Form)"
+          showTitle
+        >
+          <SubmitForm />
+        </LearnSection> */}
+      </div>
+    </>
+  )
+}
+
+function UncontrolledInput() {
+  const emailRef = useRef<HTMLInputElement>(null)
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    if (!emailRef.current) return
+    const { value: email } = emailRef.current
+    if (email) alert(email)
+  }
+
+  console.log('UncontrolledInput 렌더링!')
+
+  return (
+    <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+      <label htmlFor="email-input">
+        이메일 <span aria-label="필수 입력">*</span>
+      </label>
+      <input ref={emailRef} type="email" id="email-input" required />
+      <button type="submit">구독</button>
+    </form>
+  )
+}
+
+function ControlledInput() {
+  const [email, setEmail] = useState('')
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (email) alert(email)
+  }
+
+  console.log('ControlledInput 렌더링!')
+
+  return (
+    <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+      <label htmlFor="email-input">
+        이메일 <span aria-label="필수 입력">*</span>
+      </label>
+      <input
+        type="email"
+        id="email-input"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required
+      />
+      <button type="submit">구독</button>
+    </form>
   )
 }
 
@@ -102,7 +175,7 @@ function SubmitForm() {
         <label htmlFor="select-gender">성별</label>
         <select
           id="select-gender"
-          className="border-1 w-max p-1 pr-1.5"
+          className="border-2 border-sky-500 w-max p-1 pr-1.5 rounded"
           value={gender}
           onChange={(e) => setGender(e.target.value)}
         >
