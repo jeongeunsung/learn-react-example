@@ -12,7 +12,7 @@ createRoot(root).render(
   <StrictMode>
     <ErrorBoundary>
       <App />
-      <Toaster position="bottom-right" />
+      <Toaster position="top-center" />
     </ErrorBoundary>
   </StrictMode>
 )
