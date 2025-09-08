@@ -1,8 +1,4 @@
-// Modal Dialog 컴포넌트
-// 1. Custom Modal Dialog: <div role="dialog" aria-modal="true">
-// 2. Native Modal Dialog: <dialog aria-modal="true">
 import {
-  type MouseEvent,
   type PropsWithChildren,
   useCallback,
   useEffect,
