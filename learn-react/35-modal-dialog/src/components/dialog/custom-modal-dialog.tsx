@@ -1,9 +1,6 @@
-// Modal Dialog 컴포넌트
-// 1. Custom Modal Dialog: <div role="dialog" aria-modal="true">
-// 2. Native Modal Dialog: <dialog aria-modal="true">
 import {
-  type MouseEvent,
   type PropsWithChildren,
+  useCallback,
   useEffect,
   useId,
   useRef,
@@ -33,6 +30,11 @@ export default function CustomModalDialog({
   const dialogId = useId()
   const titleId = `${dialogId}-title`
   const describeId = `${dialogId}-describe`
+
+  const close = useCallback(() => {
+    opennerRef.current?.focus()
+    onClose?.()
+  }, [onClose])
 
   useEffect(() => {
     const dialog = dialogRef.current
@@ -71,11 +73,7 @@ export default function CustomModalDialog({
       const firstTabbable = tabbables.at(0) as HTMLElement
       const lastTabbable = tabbables.at(-1) as HTMLElement
 
-      if (key === 'Escape') {
-        onClose?.()
-        opennerRef.current?.focus()
-        return
-      }
+      if (key === 'Escape') return close()
 
       if (key === 'Tab') {
         if (shiftKey && activeElement === firstTabbable) {
@@ -95,16 +93,19 @@ export default function CustomModalDialog({
 
     dialog.addEventListener('keydown', handleFocusTrap)
 
+    // 다이얼로그가 열린 상태
+    // 문서의 스크롤 바를 감춤
+    document.body.style.overflowY = 'hidden'
+
     return () => {
       dialog.removeEventListener('keydown', handleFocusTrap)
+      // 다이얼로그가 닫힌 상태
+      // 문서의 스크롤 바를 표시
+      setTimeout(() => {
+        document.body.style.overflowY = 'visible'
+      }, 0)
     }
-  }, [open, onClose])
-
-  const handleClose = (e: MouseEvent<HTMLDivElement>) => {
-    if (dialogDimRef.current === e.target) {
-      onClose?.()
-    }
-  }
+  }, [open, onClose, close])
 
   const portalContainer = document.getElementById('modal-dialog-portal')
   if (!portalContainer) return null
@@ -113,7 +114,7 @@ export default function CustomModalDialog({
     <div
       ref={dialogDimRef}
       role="presentation"
-      onClick={handleClose}
+      onClick={(e) => dialogDimRef.current === e.target && close()}
       className={tw(
         'fixed inset-0 z-10000',
         open ? 'flex' : 'hidden',
@@ -140,7 +141,7 @@ export default function CustomModalDialog({
           type="button"
           aria-label="다이얼로그 닫기"
           title="다이얼로그 닫기"
-          onClick={onClose}
+          onClick={close}
           className={tw(
             'cursor-pointer',
             'absolute -top-2.5 -right-2.5 rounded-full',
