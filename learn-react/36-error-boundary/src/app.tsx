@@ -7,13 +7,7 @@ export default function App() {
 
   return (
     <LearnSection title="랜덤 카운트 업" className="p-10">
-      <ErrorBoundary
-        FallbackComponent={
-          <p role="alert" className="bg-red-800 text-white p-10">
-            오류 발생!
-          </p>
-        }
-      >
+      <ErrorBoundary>
         <RandomCountUp />
       </ErrorBoundary>
     </LearnSection>
