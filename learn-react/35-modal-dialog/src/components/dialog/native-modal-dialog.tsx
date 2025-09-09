@@ -7,8 +7,8 @@ import {
 } from 'react'
 import { createPortal } from 'react-dom'
 import { XCircleIcon } from 'lucide-react'
-import { useOpenAnimating } from '@/hooks'
 import { tabbableSelector, tw } from '@/utils'
+import './native-modal-dialog.css'
 
 type Props = PropsWithChildren<{
   open?: boolean
@@ -17,7 +17,7 @@ type Props = PropsWithChildren<{
   describe?: string
 }>
 
-export default function CustomModalDialog({
+export default function NativeModalDialog({
   open = false,
   onClose,
   title,
@@ -25,20 +25,39 @@ export default function CustomModalDialog({
   children,
 }: Props) {
   const opennerRef = useRef<HTMLElement>(null)
-  const dialogDimRef = useRef<HTMLDivElement>(null)
-  const dialogRef = useRef<HTMLDivElement>(null)
+  const dialogRef = useRef<HTMLDialogElement>(null)
 
   const dialogId = useId()
   const titleId = `${dialogId}-title`
   const describeId = `${dialogId}-describe`
 
-  const animationDuration = 250
-  const { openFinished } = useOpenAnimating(open, animationDuration)
-
   const close = useCallback(() => {
     opennerRef.current?.focus()
     onClose?.()
   }, [onClose])
+
+  useEffect(() => {
+    const dialog = dialogRef.current
+    if (!dialog) return
+
+    if (open) {
+      dialog.showModal()
+    } else {
+      dialog.close()
+    }
+
+    // 모달 다이얼로그의 오버레이된,
+    // 딤 영역(백드롭(backdrop)) 누를 때 닫기 기능 구현
+    const handleCloseByBackdrop = (e: globalThis.MouseEvent) => {
+      if (e.target === dialog) onClose?.()
+    }
+
+    dialog.addEventListener('click', handleCloseByBackdrop)
+
+    return () => {
+      dialog.removeEventListener('click', handleCloseByBackdrop)
+    }
+  }, [open, onClose])
 
   useEffect(() => {
     const dialog = dialogRef.current
@@ -105,9 +124,14 @@ export default function CustomModalDialog({
       dialog.removeEventListener('keydown', handleFocusTrap)
       // 다이얼로그가 닫힌 상태
       // 문서의 스크롤 바를 표시
+
+      const duration = parseFloat(
+        globalThis.getComputedStyle(dialog).getPropertyValue('--duration')
+      )
+
       setTimeout(() => {
         document.body.style.overflowY = 'visible'
-      }, animationDuration)
+      }, duration)
     }
   }, [open, onClose, close])
 
@@ -115,34 +139,19 @@ export default function CustomModalDialog({
   if (!portalContainer) return null
 
   return createPortal(
-    <div
-      ref={dialogDimRef}
-      role="presentation"
-      onClick={(e) => dialogDimRef.current === e.target && close()}
+    <dialog
+      ref={dialogRef}
+      aria-modal="true"
+      aria-labelledby={titleId}
+      aria-describedby={describe ? describeId : undefined}
       className={tw(
-        'fixed inset-0 z-10000',
-        'flex justify-center items-center',
-        'bg-black/20 backdrop-blur-[3px]',
-        'transition-all duration-250',
-        openFinished ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        'relative',
+        'overflow-visible',
+        'border-0 m-auto rounded-md shadow-xl bg-white',
+        'backdrop:backdrop-blur-[3px]'
       )}
     >
-      <div
-        ref={dialogRef}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={titleId}
-        aria-describedby={describe ? describeId : undefined}
-        className={tw(
-          'relative',
-          'w-full max-w-lg rounded-lg shadow-xl p-10',
-          'bg-white',
-          'transition-all duration-250',
-          openFinished
-            ? 'opacity-100 scale-100'
-            : 'opacity-0 scale-95 translate-y-20'
-        )}
-      >
+      <div className="p-5">
         <h2 id={titleId}>{title && '다이얼로그 제목'}</h2>
         {describe && <p id={describeId}>{describe}</p>}
         {children}
@@ -160,7 +169,7 @@ export default function CustomModalDialog({
           <XCircleIcon size={28} />
         </button>
       </div>
-    </div>,
+    </dialog>,
     portalContainer
   )
 }
