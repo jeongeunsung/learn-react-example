@@ -7,6 +7,7 @@ import {
 } from 'react'
 import { createPortal } from 'react-dom'
 import { XCircleIcon } from 'lucide-react'
+import { useOpenAnimating } from '@/hooks'
 import { tabbableSelector, tw } from '@/utils'
 
 type Props = PropsWithChildren<{
@@ -30,6 +31,9 @@ export default function CustomModalDialog({
   const dialogId = useId()
   const titleId = `${dialogId}-title`
   const describeId = `${dialogId}-describe`
+
+  const animationDuration = 250
+  const { openFinished } = useOpenAnimating(open, animationDuration)
 
   const close = useCallback(() => {
     opennerRef.current?.focus()
@@ -103,7 +107,7 @@ export default function CustomModalDialog({
       // 문서의 스크롤 바를 표시
       setTimeout(() => {
         document.body.style.overflowY = 'visible'
-      }, 0)
+      }, animationDuration)
     }
   }, [open, onClose, close])
 
@@ -117,9 +121,10 @@ export default function CustomModalDialog({
       onClick={(e) => dialogDimRef.current === e.target && close()}
       className={tw(
         'fixed inset-0 z-10000',
-        open ? 'flex' : 'hidden',
-        'justify-center items-center',
-        'bg-black/20 backdrop-blur-[3px]'
+        'flex justify-center items-center',
+        'bg-black/20 backdrop-blur-[3px]',
+        'transition-all duration-250',
+        openFinished ? 'opacity-100' : 'opacity-0 pointer-events-none'
       )}
     >
       <div
@@ -131,7 +136,11 @@ export default function CustomModalDialog({
         className={tw(
           'relative',
           'w-full max-w-lg rounded-lg shadow-xl p-10',
-          'bg-white'
+          'bg-white',
+          'transition-all duration-250',
+          openFinished
+            ? 'opacity-100 scale-100'
+            : 'opacity-0 scale-95 translate-y-20'
         )}
       >
         <h2 id={titleId}>{title && '다이얼로그 제목'}</h2>
