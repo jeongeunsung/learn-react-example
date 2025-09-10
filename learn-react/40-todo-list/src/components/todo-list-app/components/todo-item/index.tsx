@@ -4,7 +4,7 @@ import S from './style.module.css'
 export default function TodoItem() {
   return (
     <li className={S.listItem}>
-      <div className={tw(S.formControl, 'form-control row')}>
+      <div className={tw(S.formControl, 'form-control row h-11')}>
         <input id="todo-item-cisdk" type="checkbox" data-list-item-checkbox />
         <label
           htmlFor="todo-item-cisdk"
@@ -26,8 +26,8 @@ export default function TodoItem() {
 
 function EditMode() {
   return (
-    <li className="list-item" data-list-item-edit-mode>
-      <div className="form-control row">
+    <li className={S.listItem} data-list-item-edit-mode>
+      <div className={tw(S.formControl, 'form-control row')}>
         <input id="todo-item-cjsue" type="text" defaultValue="할 일 1" />
       </div>
       <button className="button" type="button" data-button-save>
