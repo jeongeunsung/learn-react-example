@@ -11,11 +11,28 @@ import todoListReducer, {
   removeAction,
   removeTodoListStorageData,
   setTodoListStorageData,
+  toggleAction,
 } from './reducer'
 import { Todo, type TodoListContextValue } from './types'
 
 // 컨텍스트
 const TodoListContext = createContext<null | TodoListContextValue>(null)
+
+// 초깃값
+const initialState = {
+  todos: [
+    {
+      id: 'todo-1',
+      doit: '할 일을 추가해보세요.',
+      done: false,
+    },
+    {
+      id: 'todo-2',
+      doit: '두 번째 할 일을 추가해보세요.',
+      done: true,
+    },
+  ],
+}
 
 // 프로바이더 래퍼 컴포넌트
 export default function TodoListProvider({
@@ -23,24 +40,7 @@ export default function TodoListProvider({
   children,
 }: PropsWithChildren<{ persist?: boolean }>) {
   // 리듀서(Reducer)를 사용해 컨텍스트 상태 및 상태 업데이트 로직
-  const [state, dispatch] = useImmerReducer(
-    todoListReducer,
-    {
-      todos: [
-        {
-          id: 'todo-1',
-          doit: '할 일을 추가해보세요.',
-          done: false,
-        },
-        {
-          id: 'todo-2',
-          doit: '두 번째 할 일을 추가해보세요.',
-          done: true,
-        },
-      ],
-    },
-    init
-  )
+  const [state, dispatch] = useImmerReducer(todoListReducer, initialState, init)
 
   // 컨텍스트 상태가 변경될 때 마다, 스토리지에 데이터 저장
   useEffect(() => {
@@ -58,6 +58,7 @@ export default function TodoListProvider({
     state,
     add: (newDoIt: Todo['doit']) => dispatch(addAction(newDoIt)),
     remove: (removeTodoId: Todo['id']) => dispatch(removeAction(removeTodoId)),
+    toggle: (toggleTodoId: Todo['id']) => dispatch(toggleAction(toggleTodoId)),
   }
 
   return (

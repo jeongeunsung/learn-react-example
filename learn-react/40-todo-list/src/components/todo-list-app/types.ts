@@ -7,9 +7,8 @@ export interface Todo {
 
 // 컨텍스트 값 타입 선언
 export interface TodoListContextValue {
-  state: {
-    todos: Todo[]
-  }
+  state: { todos: Todo[] }
   add: (newDoIt: Todo['doit']) => void
   remove: (removeTodoId: string) => void
+  toggle: (toggleTodoId: Todo['id']) => void
 }
