@@ -11,4 +11,5 @@ export interface TodoListContextValue {
     todos: Todo[]
   }
   add: (newDoIt: Todo['doit']) => void
+  remove: (removeTodoId: string) => void
 }

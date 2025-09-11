@@ -8,7 +8,9 @@ interface State {
   todos: Todo[]
 }
 
-type Action = { type: typeof ACTION.ADD; payload: { newDoIt: Todo['doit'] } }
+type Action =
+  | { type: typeof ACTION.ADD; payload: { newDoIt: Todo['doit'] } }
+  | { type: typeof ACTION.REMOVE; payload: { removeTodoId: Todo['id'] } }
 
 // --------------------------------------------------------------------------
 // 액션 타입
@@ -27,6 +29,11 @@ export const addAction = (newDoIt: Todo['doit']): Action => ({
   payload: { newDoIt },
 })
 
+export const removeAction = (deleteTodId: Todo['id']): Action => ({
+  type: ACTION.REMOVE,
+  payload: { removeTodoId: deleteTodId },
+})
+
 // --------------------------------------------------------------------------
 // 리듀서 함수
 // 컴포넌트 -> 사용자 액션 -> 액션 생성 -> 디스패치 -> 리듀서 -> 컴포넌트 -> 화면 렌더링
@@ -41,6 +48,15 @@ export default function todoListReducer(draft: Draft<State>, action: Action) {
         done: false,
       }
       draft.todos.unshift(newTodoItem)
+      break
+    }
+
+    case ACTION.REMOVE: {
+      const { removeTodoId } = action.payload
+      const removeIndex = draft.todos.findIndex(
+        (todo) => todo.id === removeTodoId
+      )
+      draft.todos.splice(removeIndex, 1)
       break
     }
 
