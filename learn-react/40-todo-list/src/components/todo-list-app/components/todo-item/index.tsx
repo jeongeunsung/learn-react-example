@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'react'
+import { ChangeEvent, useRef, useState } from 'react'
 import { tw } from '@/utils'
 import { useTodoList } from '../../context'
 import type { Todo } from '../../types'
@@ -8,6 +8,14 @@ export default function TodoItem({ item }: { item: Todo }) {
   const { remove, toggle } = useTodoList()
   const handleRemoveTodo = () => remove(item.id)
   const handleToggleTodo = () => toggle(item.id)
+
+  const [editMode, setEditMode] = useState<boolean>(false)
+  const handleEditModeOn = () => setEditMode(true)
+  const handleEditModeOff = () => setEditMode(false)
+
+  if (editMode) {
+    return <EditMode item={item} onEditModeOff={handleEditModeOff} />
+  }
 
   return (
     <li className={S.listItem}>
@@ -27,7 +35,12 @@ export default function TodoItem({ item }: { item: Todo }) {
           {item.doit}
         </label>
       </div>
-      <button className="button" type="button" data-button-edit>
+      <button
+        className="button"
+        type="button"
+        onClick={handleEditModeOn}
+        data-button-edit
+      >
         수정
       </button>
       <button
@@ -42,13 +55,38 @@ export default function TodoItem({ item }: { item: Todo }) {
   )
 }
 
-function EditMode() {
+function EditMode({
+  item,
+  onEditModeOff,
+}: {
+  item: Todo
+  onEditModeOff: () => void
+}) {
+  const inputRef = useRef<HTMLInputElement>(null)
+  const { edit } = useTodoList()
+
+  const handleSave = () => {
+    const input = inputRef.current
+    if (input) edit(item.id, input.value)
+    onEditModeOff()
+  }
+
   return (
     <li className={S.listItem} data-list-item-edit-mode>
       <div className={tw(S.formControl, 'form-control row')}>
-        <input id="todo-item-cjsue" type="text" defaultValue="할 일 1" />
+        <input
+          ref={inputRef}
+          id={item.id}
+          type="text"
+          defaultValue={item.doit}
+        />
       </div>
-      <button className="button" type="button" data-button-save>
+      <button
+        className="button"
+        type="button"
+        onClick={handleSave}
+        data-button-save
+      >
         저장
       </button>
     </li>

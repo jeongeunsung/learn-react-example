@@ -11,4 +11,5 @@ export interface TodoListContextValue {
   add: (newDoIt: Todo['doit']) => void
   remove: (removeTodoId: string) => void
   toggle: (toggleTodoId: Todo['id']) => void
+  edit: (editTodoId: string, newDoIt: string) => void
 }
