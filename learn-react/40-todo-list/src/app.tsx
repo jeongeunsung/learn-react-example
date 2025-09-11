@@ -7,7 +7,7 @@ export default function App() {
       <Container>
         <TodoListApp />
         <Divider />
-        <TodoListAppGuide />
+        {/* <TodoListAppGuide /> */}
       </Container>
     </LearnSection>
   )
