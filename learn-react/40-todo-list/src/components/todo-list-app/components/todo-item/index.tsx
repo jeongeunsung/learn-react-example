@@ -1,11 +1,11 @@
 import { type RefObject, useCallback, useEffect, useRef, useState } from 'react'
 import { tw } from '@/utils'
-import { useTodoList } from '../../context'
+import { useTodoListDispatch } from '../../context'
 import type { Todo } from '../../types'
 import S from './style.module.css'
 
 export default function TodoItem({ item }: { item: Todo }) {
-  const { remove, toggle, edit } = useTodoList()
+  const { remove, toggle, edit } = useTodoListDispatch()
   const handleRemoveTodo = () => remove(item.id)
   const handleToggleTodo = () => toggle(item.id)
 
@@ -20,6 +20,8 @@ export default function TodoItem({ item }: { item: Todo }) {
     setEditMode(false)
   }, [edit, item.id])
 
+  const editButtonRef = useRef<HTMLButtonElement>(null)
+
   useEffect(() => {
     const editInput = editInputRef.current
     const handleKeyControls = ({ key }: globalThis.KeyboardEvent) => {
@@ -32,6 +34,8 @@ export default function TodoItem({ item }: { item: Todo }) {
       editInput?.addEventListener('keydown', handleKeyControls)
     } else {
       editInput?.removeEventListener('keydown', handleKeyControls)
+      const editButton = editButtonRef.current
+      setTimeout(() => editButton?.focus())
     }
   }, [editMode, handleSave])
 
@@ -58,6 +62,7 @@ export default function TodoItem({ item }: { item: Todo }) {
         </label>
       </div>
       <button
+        ref={editButtonRef}
         className="button"
         type="button"
         onClick={handleEditModeOn}

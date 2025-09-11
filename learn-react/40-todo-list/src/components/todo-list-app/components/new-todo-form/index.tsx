@@ -1,10 +1,10 @@
-import { FormEvent } from 'react'
+import { type FormEvent } from 'react'
 import { tw } from '@/utils'
-import { useTodoList } from '../../context'
+import { useTodoListDispatch } from '../../context'
 import S from './style.module.css'
 
 export default function NewTodoForm() {
-  const { add } = useTodoList()
+  const { add } = useTodoListDispatch()
 
   const handleAddTodo = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
