@@ -11,7 +11,7 @@ export default function TodoListApp() {
   return (
     <TodoListProvider>
       <section>
-        <h2>일반 버전</h2>
+        <h2 className="hidden">일반 버전</h2>
         <FilterForm />
       </section>
       <section className="hidden">

@@ -1,4 +1,3 @@
-/* eslint-disable react-refresh/only-export-components */
 import type { AuthError, Session, User } from '@supabase/supabase-js'
 import {
   type PropsWithChildren,
@@ -151,13 +150,13 @@ export function AuthProvider({ children }: PropsWithChildren) {
         const { error } = await supabase.auth.signOut()
 
         if (!error) {
-          toast.success('로그아웃 되었습니다')
+          toast.success('로그아웃 되었습니다.')
         }
 
         return { error }
       } catch (error) {
         console.error('로그아웃 오류:', error)
-        toast.error('로그아웃 중 문제가 발생했습니다')
+        toast.error('로그아웃 중 문제가 발생했습니다.')
         return { error: error as AuthError }
       }
     }
@@ -176,6 +175,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
   )
 }
 
+/* eslint-disable react-refresh/only-export-components */
 // --------------------------------------------------------------------------
 // Auth 컨텍스트 커스텀 훅
 
