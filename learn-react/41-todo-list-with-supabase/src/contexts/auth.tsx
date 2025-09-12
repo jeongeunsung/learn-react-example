@@ -38,7 +38,10 @@ interface AuthContextDispatchValue {
 // Auth 컨텍스트 생성
 
 const AuthContext = createContext<AuthContextValue | null>(null)
+AuthContext.displayName = 'AuthContext'
+
 const AuthContextDispach = createContext<AuthContextDispatchValue | null>(null)
+AuthContextDispach.displayName = 'AuthContextDispach'
 
 // --------------------------------------------------------------------------
 // AuthProvider 컴포넌트
@@ -83,15 +86,18 @@ export function AuthProvider({ children }: PropsWithChildren) {
   }, [])
 
   // 인증 상태 컨텍스트 값
-  const state = {
-    user,
-    session,
-    isLoading,
-    isAuthenticated: !!user,
-  }
+  const state: AuthContextValue = useMemo(
+    () => ({
+      user,
+      session,
+      isLoading,
+      isAuthenticated: !!user,
+    }),
+    [isLoading, session, user]
+  )
 
   // 인증 상태 업데이트 함수 컨텍스트 값
-  const actions = useMemo(() => {
+  const actions: AuthContextDispatchValue = useMemo(() => {
     // 회원가입 함수
     const signUp = async (
       email: string,
@@ -165,13 +171,13 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   return (
     <AuthContextDispach value={actions}>
-      <AuthContext.Provider value={state}>{children}</AuthContext.Provider>
+      <AuthContext value={state}>{children}</AuthContext>
     </AuthContextDispach>
   )
 }
 
 // --------------------------------------------------------------------------
-// Auth 커스텀 훅
+// Auth 컨텍스트 커스텀 훅
 
 export function useAuth(): AuthContextValue {
   const contextValue = useContext(AuthContext)
