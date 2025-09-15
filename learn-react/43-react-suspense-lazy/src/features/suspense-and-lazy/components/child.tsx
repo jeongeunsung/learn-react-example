@@ -49,12 +49,6 @@ export default function Child({ cutoff }: { cutoff: number }) {
     )
   }
 
-  // [실습]
-  // Suspense를 지원하는 쿼리 훅을 사용
-  // - queryKey: ['data', cutoff]
-  // - queryFn: getData(cutoff)
-  // - retry: false
-
   return (
     <ul className="list-none pl-0 flex flex-col gap-y-1">
       {data?.map((item, i) => (
