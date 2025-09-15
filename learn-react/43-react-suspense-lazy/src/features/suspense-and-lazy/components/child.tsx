@@ -4,6 +4,7 @@ import { tw } from '@/utils'
 import { getData } from '../api'
 
 export default function Child({ cutoff }: { cutoff: number }) {
+  // 컴포넌트 내부에 로딩, 에러, 데이터 상태 선언하고 관리해야 합니다.
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<Error | null>(null)
   const [data, setData] = useState<number[]>([])

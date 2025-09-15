@@ -6,6 +6,8 @@ export default function ChildWithSuspense({ cutoff }: { cutoff: number }) {
   const { data } = useSuspenseQuery({
     queryKey: ['data', cutoff],
     queryFn: () => getData(cutoff),
+    // 데이터 가져온 후, 얼마만큼의 시간이 지나면 오래된 것으로 취급하는가?
+    // staleTime: 1000 * 60 * 60 * 24,
     retry: false,
   })
 
