@@ -39,7 +39,7 @@ export default function Parent({ cutoff, setCutoff }: Props) {
 function LoadingSpinner() {
   return (
     <div role="status">
-      <h2 className="flex gap-x-2 items-center text-emerald-600 text-xs">
+      <h2 className="flex gap-x-2 items-center text-emerald-600 text-xs mt-4">
         <LucideLoaderCircle size={24} className=" animate-spin duration-600" />
         데이터 로딩 중...
       </h2>
