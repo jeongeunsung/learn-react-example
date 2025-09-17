@@ -1,9 +1,9 @@
 import {
   Suspense,
   use,
-  useEffect,
   useMemo,
-  useState,
+  // useEffect,
+  // useState,
   // useEffect,
   // useState
 } from 'react'
@@ -57,14 +57,14 @@ export default function Users() {
   }, [])
 
   // [위험] 컴포넌트가 리렌더링 되면 무한 반복에 빠질 수 있다.
-  const [message, setMessage] = useState<string>('')
+  // const [message, setMessage] = useState<string>('')
 
-  useEffect(() => {
-    if (!message) {
-      console.log('Users 렌더링: 메시지 업데이트')
-      setMessage((m) => m + '!')
-    }
-  }, [message])
+  // useEffect(() => {
+  //   if (!message) {
+  //     console.log('Users 렌더링: 메시지 업데이트')
+  //     setMessage((m) => m + '!')
+  //   }
+  // }, [message])
 
   // const usersPromise = fetchUsers() // ... Promise 2
 
@@ -90,7 +90,7 @@ export default function Users() {
   return (
     <section className="mt-6 p-6 max-w-xl bg-gray-50 rounded-xl shadow-lg">
       <h3 className="text-xl font-bold mb-6 text-center text-indigo-700">
-        사용자 목록 ({message})
+        사용자 목록 {/* ({message}) */}
       </h3>
 
       {/* {loading && <Loading />} */}
