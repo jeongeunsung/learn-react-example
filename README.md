@@ -10,10 +10,12 @@
 - [Bun](https://bun.sh/)
 - [Vite](https://vitejs.dev/)
 - [React](https://ko.react.dev/)
+- [Next.js](https://nextjs.org/)  
 - [ESLint](https://eslint.org/)
 - [Prettier](https://prettier.io/)
 - [TypeScript](https://www.typescriptlang.org/ko/)
 - [Tailwind CSS](https://tailwindcss.com/)
+- [Supabase](https://supabase.com/)  
 
 ## 학습 폴더
 
