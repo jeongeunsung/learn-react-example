@@ -1,5 +1,5 @@
-import '@/styles/main.css'
 import type { PropsWithChildren } from 'react'
+import '@/styles/main.css'
 
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
