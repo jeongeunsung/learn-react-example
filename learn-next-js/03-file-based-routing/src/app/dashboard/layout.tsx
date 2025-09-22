@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from 'react'
 
-import { Link } from '@/components'
+import { NavLink } from '@/components'
 
 export default function DashboardLayout({ children }: PropsWithChildren) {
   console.log('대시보드 레이아웃')
@@ -10,20 +10,20 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
       <nav className="p-5">
         <ul>
           <li>
-            <Link
+            <NavLink
               className="text-sky-600 hover:text-sky-900"
               href="/dashboard/profile"
             >
               대시보드 &gt; 프로필
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link
+            <NavLink
               className="text-sky-600 hover:text-sky-900"
               href="/dashboard/settings"
             >
               대시보드 &gt; 설정
-            </Link>
+            </NavLink>
           </li>
         </ul>
       </nav>

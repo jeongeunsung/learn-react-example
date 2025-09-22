@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from 'react'
 
-import { Link } from '@/components'
+import { NavLink } from '@/components'
 import '@/styles/main.css'
 
 export default function RootLayout({ children }: PropsWithChildren) {
@@ -22,19 +22,24 @@ export default function RootLayout({ children }: PropsWithChildren) {
           <nav aria-label="사이트 페이지 내비게이션">
             <ul className="p-5">
               <li>
-                <Link href="/">홈</Link>
+                <NavLink href="/">홈</NavLink>
               </li>
               <li>
-                <Link href="/auth/sign-in">로그인</Link>
+                <NavLink href="/auth/sign-in">로그인</NavLink>
               </li>
               <li>
-                <Link href="/auth/sign-up">회원가입</Link>
+                <NavLink href="/auth/sign-up">회원가입</NavLink>
               </li>
               <li>
-                <Link href="/books">도서 목록</Link>
+                <NavLink href="/books">도서 목록</NavLink>
               </li>
               <li>
-                <Link href="/dashboard">대시보드</Link>
+                <NavLink
+                  href="/dashboard"
+                  activeClassName="text-emerald-700 font-black underline"
+                >
+                  대시보드
+                </NavLink>
               </li>
             </ul>
           </nav>
