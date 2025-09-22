@@ -17,7 +17,7 @@ export default function Loading() {
         size={64}
         className="animate-spin"
       />
-      <p>로딩 중...</p>
+      <p>도서 데이터 로딩 중...</p>
     </div>
   )
 }
