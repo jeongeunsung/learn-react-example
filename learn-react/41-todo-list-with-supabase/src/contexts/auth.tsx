@@ -1,4 +1,3 @@
-/* eslint-disable react-refresh/only-export-components */
 import type { AuthError, Session, User } from '@supabase/supabase-js'
 import {
   type PropsWithChildren,
@@ -38,7 +37,10 @@ interface AuthContextDispatchValue {
 // Auth 컨텍스트 생성
 
 const AuthContext = createContext<AuthContextValue | null>(null)
+AuthContext.displayName = 'AuthContext'
+
 const AuthContextDispach = createContext<AuthContextDispatchValue | null>(null)
+AuthContextDispach.displayName = 'AuthContextDispach'
 
 // --------------------------------------------------------------------------
 // AuthProvider 컴포넌트
@@ -83,15 +85,18 @@ export function AuthProvider({ children }: PropsWithChildren) {
   }, [])
 
   // 인증 상태 컨텍스트 값
-  const state = {
-    user,
-    session,
-    isLoading,
-    isAuthenticated: !!user,
-  }
+  const state: AuthContextValue = useMemo(
+    () => ({
+      user,
+      session,
+      isLoading,
+      isAuthenticated: !!user,
+    }),
+    [isLoading, session, user]
+  )
 
   // 인증 상태 업데이트 함수 컨텍스트 값
-  const actions = useMemo(() => {
+  const actions: AuthContextDispatchValue = useMemo(() => {
     // 회원가입 함수
     const signUp = async (
       email: string,
@@ -145,13 +150,13 @@ export function AuthProvider({ children }: PropsWithChildren) {
         const { error } = await supabase.auth.signOut()
 
         if (!error) {
-          toast.success('로그아웃 되었습니다')
+          toast.success('로그아웃 되었습니다.')
         }
 
         return { error }
       } catch (error) {
         console.error('로그아웃 오류:', error)
-        toast.error('로그아웃 중 문제가 발생했습니다')
+        toast.error('로그아웃 중 문제가 발생했습니다.')
         return { error: error as AuthError }
       }
     }
@@ -165,13 +170,14 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   return (
     <AuthContextDispach value={actions}>
-      <AuthContext.Provider value={state}>{children}</AuthContext.Provider>
+      <AuthContext value={state}>{children}</AuthContext>
     </AuthContextDispach>
   )
 }
 
+/* eslint-disable react-refresh/only-export-components */
 // --------------------------------------------------------------------------
-// Auth 커스텀 훅
+// Auth 컨텍스트 커스텀 훅
 
 export function useAuth(): AuthContextValue {
   const contextValue = useContext(AuthContext)

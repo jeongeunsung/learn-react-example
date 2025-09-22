@@ -20,30 +20,51 @@ export type Database = {
           created_at: string
           email: string | null
           id: string
-          phone: string | null
-          profile_url: string | null
           updated_at: string | null
-          username: string | null
+          username: string
         }
         Insert: {
           bio?: string | null
           created_at?: string
           email?: string | null
           id?: string
-          phone?: string | null
-          profile_url?: string | null
           updated_at?: string | null
-          username?: string | null
+          username: string
         }
         Update: {
           bio?: string | null
           created_at?: string
           email?: string | null
           id?: string
-          phone?: string | null
-          profile_url?: string | null
           updated_at?: string | null
-          username?: string | null
+          username?: string
+        }
+        Relationships: []
+      }
+      todos: {
+        Row: {
+          created_at: string
+          doit: string
+          done: boolean
+          id: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          doit: string
+          done?: boolean
+          id?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          doit?: string
+          done?: boolean
+          id?: string
+          updated_at?: string | null
+          user_id?: string
         }
         Relationships: []
       }
