@@ -1,6 +1,7 @@
-import '@/styles/main.css'
-import Link from 'next/link'
 import type { PropsWithChildren } from 'react'
+
+import { Link } from '@/components'
+import '@/styles/main.css'
 
 export default function RootLayout({ children }: PropsWithChildren) {
   console.log('루트 레이아웃')
