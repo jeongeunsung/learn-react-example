@@ -11,7 +11,6 @@ import Link from './link'
  * 네비게이션 링크 컴포넌트
  *
  * @example
- * ```tsx
  * // 기본 사용법
  * <NavLink href="/about">소개</NavLink>
  *
@@ -38,7 +37,6 @@ import Link from './link'
  * <NavLink href="/admin" disabled>
  *   관리자
  * </NavLink>
- * ```
  */
 export default function NavLink({
   href,
