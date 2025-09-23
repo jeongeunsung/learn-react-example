@@ -6,15 +6,15 @@ import localFont from 'next/font/local'
 
 // Noto Sans KR
 export const notoSansKR = Noto_Sans_KR({
-  subsets: ['latin'],
   variable: '--noto-sans-kr',
+  subsets: ['latin'],
 })
 
 // Gothid A1
 export const gothicA1 = Gothic_A1({
-  subsets: ['latin'],
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
   variable: '--gothic-a1',
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  subsets: ['latin'],
 })
 
 // --------------------------------------------------------------------------
@@ -69,6 +69,7 @@ const fonts = {
   notoSansKR,
   gothicA1,
   pretendard,
+  spoqaHandSansNeo,
 }
 
 export default fonts

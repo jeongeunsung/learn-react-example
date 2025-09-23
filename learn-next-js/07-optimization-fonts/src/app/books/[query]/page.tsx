@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { Section } from '@/components'
-import { spoqaHandSansNeo } from '@/fonts'
 import { wait } from '@/utils'
 import fetchBooks from '../api'
 import Books from '../components/books'
@@ -23,9 +22,9 @@ export default async function BooksQueryResultPage({ params }: Props) {
   const booksData = await fetchBooks({ query: decodedQuery })
 
   const title = (
-    <span className={spoqaHandSansNeo.className}>
+    <span className="font-pretendard">
       <strong>{decodedQuery}</strong>
-      검색 결과
+      검색 결과 9
     </span>
   )
 
