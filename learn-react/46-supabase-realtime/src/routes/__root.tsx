@@ -1,7 +1,7 @@
 import { Outlet, createRootRoute, useNavigate } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import { MouseEvent, useCallback, useTransition } from 'react'
-import { Dialog, NavLink, SignInForm } from '@/components'
+import { Dialog, NavLink, SignInForm, SignUpForm } from '@/components'
 import { useAuth, useAuthDispatch } from '@/contexts/auth'
 import { useToggleState } from '@/hooks'
 import { tw } from '@/utils'
@@ -124,7 +124,7 @@ function Nav({
           )}
 
           <Dialog mode="custom" open={showModal} onClose={off}>
-            <SignInForm onSwitchForm={() => {}} onClose={off} />
+            <SignUpForm onSwitchForm={() => {}} onClose={off} />
           </Dialog>
         </li>
       </ul>
