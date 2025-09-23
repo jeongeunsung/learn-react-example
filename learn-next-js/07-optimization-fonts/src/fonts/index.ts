@@ -31,6 +31,40 @@ export const pretendard = localFont({
 
 // Spoka Han Sans
 
+export const spoqaHandSansNeo = localFont({
+  variable: '--spoqa-han-sans-neo',
+  src: [
+    {
+      path: './SpoqaHanSansNeo-Bold.woff2',
+      weight: '700',
+      style: 'normal',
+    },
+    {
+      path: './SpoqaHanSansNeo-Medium.woff2',
+      weight: '500',
+      style: 'normal',
+    },
+    {
+      path: './SpoqaHanSansNeo-Regular.woff2',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: './SpoqaHanSansNeo-Light.woff2',
+      weight: '300',
+      style: 'normal',
+    },
+    {
+      path: './SpoqaHanSansNeo-Thin.woff2',
+      weight: '100',
+      style: 'normal',
+    },
+  ],
+})
+
+// --------------------------------------------------------------------------
+// Fonts Module
+
 const fonts = {
   notoSansKR,
   gothicA1,
