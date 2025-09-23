@@ -1,16 +1,19 @@
-'use client'
-
 import { LucideSearch } from 'lucide-react'
 import Form from 'next/form'
-import { useRouter } from 'next/navigation'
+import { redirect } from 'next/navigation'
 import { tw } from '@/utils'
 
 export default function SearchForm() {
-  const router = useRouter()
+  // 서버 함수 (Server Function)
+  // 서버에서 실행되는 함수
+  const searchAction = async (formData: FormData) => {
+    'use server'
 
-  const searchAction = (formData: FormData) => {
-    const query = formData.get('query')
-    router.push(`/books/${query}`)
+    let query = formData.get('query') as string
+    query = encodeURIComponent(query)
+    console.log(query)
+
+    redirect(`/books/${query}`)
   }
 
   return (
