@@ -18,7 +18,6 @@ export const generateMetadata = async ({
 export default async function BooksQueryResultPage({ params }: Props) {
   const { query } = await params
   const decodedQuery = decodeURIComponent(query)
-  await wait(0.45)
   const booksData = await fetchBooks({ query: decodedQuery })
 
   const title = (
