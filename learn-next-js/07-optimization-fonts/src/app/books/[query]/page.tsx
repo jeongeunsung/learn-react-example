@@ -22,10 +22,10 @@ export default async function BooksQueryResultPage({ params }: Props) {
   const booksData = await fetchBooks({ query: decodedQuery })
 
   const title = (
-    <>
+    <span className="font-pretendard">
       <strong>{decodedQuery}</strong>
-      검색 결과
-    </>
+      검색 결과 9
+    </span>
   )
 
   return (
