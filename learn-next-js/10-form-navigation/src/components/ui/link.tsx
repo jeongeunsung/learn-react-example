@@ -1,7 +1,7 @@
 'use client'
 
-import NextLink from 'next/link'
 import { type ComponentProps, useState } from 'react'
+import NextLink from 'next/link'
 
 type Props = ComponentProps<typeof NextLink>
 

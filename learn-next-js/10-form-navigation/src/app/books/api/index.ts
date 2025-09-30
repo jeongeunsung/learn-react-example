@@ -19,6 +19,9 @@ const fetchBooks = async ({
   const booksEndpoint = `${KAKAO_BOOKS_API}${searchParams.toString()}`
 
   const response = await fetch(booksEndpoint, {
+    next: {
+      revalidate: 60, // 1분
+    },
     method: 'GET',
     headers: {
       Authorization: `KakaoAK ${apiKey}`,
